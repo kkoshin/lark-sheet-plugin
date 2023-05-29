@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven("https://plugins.gradle.org/m2/")
     }
 }
 
@@ -12,11 +13,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://jitpack.io")
-    }
-    versionCatalogs {
-//        libraryLibs {
-//            from(files("./gradle/libraryLibs.versions.toml"))
-//        }
     }
 }
 rootProject.name = "lark-sheet-plugin"

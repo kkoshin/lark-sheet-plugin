@@ -1,63 +1,39 @@
-## android-library
-> 当前版本：`0.2.0` 
+### Quick Start
 
-android library 模版。
+- register plugin
+    ```kotlin
+    // settings.gradle.kts
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "lark-sheet") {
+                useModule("com.github.kkoshin:lark-sheet-plugin:$version")
+            }
+        }
+    }
+    ```
+- use plugin in module
+  ```kotlin
+  plugins {
+      id("lark-sheet") // for example
+  }
+  ```
 
-使用该模版创建后记得修改 settings.gradle 里 rootProject.name 哦
+#### lark-sheet
+> 暂不支持多维表格, 并且只支持已经设置过筛选的表格
 
-### 构建说明
-当前仓库不包含 app 模块，需要在根目录下的 local.properties 声明 application 所在的路径
-
-```
-appShell=~/Projects/android-application
-```
-
-### 依赖版本说明
-- `libs.versions.toml` 声明了基础的版本依赖，默认就会生效，不要直接修改，来自于 https://github.com/foodiestudio/application
-- `libraryLibs.versions.toml` 用于基础的版本依赖之外额外需要的 library 的依赖
-
-
-### 混淆说明
-如果使用了序列化，记得在 proguard 里添加, 详见 [kotlinx serialization 说明](https://github.com/Kotlin/kotlinx.serialization#android)：
-
-```
-# Keep `Companion` object fields of serializable classes.
-# This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
--if @kotlinx.serialization.Serializable class **
--keepclassmembers class <1> {
-    static <1>$Companion Companion;
+```kotlin
+lark {
+    client {
+        // https://open.feishu.cn/document/home/event-based-messaging/create-app-request-permission
+        // 应用详情界面的凭证与基础信息一栏里，可以查询到应用凭证，也就是 App ID 和 App Secret
+        appId = "cli_a4fec49d547a1013"
+        appSecret = "loy8zSy27oUv9fcuGf8oQdnRFqejh8o1"
+        // 使用飞书还是 Lark 站点，可选，默认为 true
+        feishu = true
+    }
+    // 表格访问的 Url
+    sheetUrl = "https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da"
+    // export csv file to custom folder, default path like $buildDir/lark-sheet/LS4os3xmMhVwmwt1876cJb4Xn5f/9d44da/output.csv
+//    exportDirectory = "./custom"
 }
-
-# Keep `serializer()` on companion objects (both default and named) of serializable classes.
--if @kotlinx.serialization.Serializable class ** {
-    static **$* *;
-}
--keepclassmembers class <1>$<3> {
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
-# Keep `INSTANCE.serializer()` of serializable objects.
--if @kotlinx.serialization.Serializable class ** {
-    public static ** INSTANCE;
-}
--keepclassmembers class <1> {
-    public static <1> INSTANCE;
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
-# @Serializable and @Polymorphic are used at runtime for polymorphic serialization.
--keepattributes RuntimeVisibleAnnotations,AnnotationDefault
-
-# Serializer for classes with named companion objects are retrieved using `getDeclaredClasses`.
-# If you have any, uncomment and replace classes with those containing named companion objects.
-#-keepattributes InnerClasses # Needed for `getDeclaredClasses`.
-#-if @kotlinx.serialization.Serializable class
-#com.example.myapplication.HasNamedCompanion, # <-- List serializable classes with named companions.
-#com.example.myapplication.HasNamedCompanion2
-#{
-#    static **$* *;
-#}
-#-keepnames class <1>$$serializer { # -keepnames suffices; class is kept when serializer() is kept.
-#    static <1>$$serializer INSTANCE;
-#}
 ```
