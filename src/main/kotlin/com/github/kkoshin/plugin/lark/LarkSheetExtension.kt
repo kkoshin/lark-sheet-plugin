@@ -10,7 +10,7 @@ import java.net.URI
 open class LarkSheetExtension constructor(objects: ObjectFactory) {
     val client: LarkClientConfig = objects.newInstance(LarkClientConfig::class.java)
     val string: StringConfig = objects.newInstance(StringConfig::class.java)
-    lateinit var sheetUrl: String
+    lateinit var url: String
     var exportDirectory = ""
 
     lateinit var scriptDirectory: String
@@ -35,11 +35,14 @@ open class StringConfig {
     lateinit var path: String
 }
 
+val LarkSheetExtension.wikiToken: String
+    get() = URI.create(url).path.split("/").last()
+
 val LarkSheetExtension.spreadsheetToken: String
-    get() = URI.create(sheetUrl).path.split("/").last()
+    get() = URI.create(url).path.split("/").last()
 
 val LarkSheetExtension.sheetId: String
-    get() = URI.create(sheetUrl).findParameterValue("sheet")
+    get() = URI.create(url).findParameterValue("sheet")
         ?: throw IllegalStateException("url is not valid. can't find `sheet` Query")
 
 internal fun getDownloadDir(project: Project, extension: LarkSheetExtension): File =

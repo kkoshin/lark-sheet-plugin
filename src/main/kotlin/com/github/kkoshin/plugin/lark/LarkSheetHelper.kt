@@ -11,6 +11,7 @@ import com.lark.oapi.core.utils.UnmarshalRespUtil
 import com.lark.oapi.service.sheets.v3.model.GetSpreadsheetSheetFilterReq
 import com.lark.oapi.service.sheets.v3.model.QuerySpreadsheetSheetReq
 import com.lark.oapi.service.sheets.v3.model.Sheet
+import com.lark.oapi.service.wiki.v2.model.GetNodeSpaceReq
 
 class LarkSheetHelper(appId: String, appSecret: String, chinaOnly: Boolean) {
 
@@ -18,6 +19,14 @@ class LarkSheetHelper(appId: String, appSecret: String, chinaOnly: Boolean) {
         .openBaseUrl(if (chinaOnly) BaseUrlEnum.FeiShu else BaseUrlEnum.LarkSuite)
         .logReqAtDebug(true)
         .build()
+
+    fun fetchSheetTokenFromWikiNode(wikiToken: String): String? {
+        val params = GetNodeSpaceReq.newBuilder()
+            .token(wikiToken)
+            .build()
+        return client.wiki().space().getNode(params).takeIf { it.code == 0 && it.data.node.objType == "sheet" }
+            ?.data?.node?.objToken
+    }
 
     /**
      * 必须有设置过筛选才能去查询范围，借助缺省筛选的方式，可以返回整个数据的集合
@@ -50,7 +59,11 @@ class LarkSheetHelper(appId: String, appSecret: String, chinaOnly: Boolean) {
         val result = UnmarshalRespUtil.unmarshalResp(httpResponse, DetailResp::class.java)
 
         return if (httpResponse.statusCode == 200 && result.code == 0) {
-            Result.success(result.data.valueRange.values)
+            val raw = result.data.valueRange.values
+            // 表格里的数据格式不定，可能包含数组，这里做一次类型转换
+            Result.success(raw.map { row ->
+                row.map { it?.toString() ?: "" }
+            })
         } else {
             Result.success(emptyList())
         }
@@ -78,7 +91,7 @@ class LarkAPIError(resp: BaseResponse<*>, val error: Error) :
 
 class ValueRange(
     val majorDimension: String,
-    val values: List<List<String>>
+    val values: List<List<Any?>>
 )
 
 class SheetContentBody(

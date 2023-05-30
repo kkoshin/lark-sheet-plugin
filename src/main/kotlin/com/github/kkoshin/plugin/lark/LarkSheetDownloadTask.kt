@@ -16,12 +16,17 @@ abstract class LarkSheetDownloadTask : DefaultTask() {
                 appSecret = client.appSecret,
                 chinaOnly = client.feishu
             )
-            val sheetToken = spreadsheetToken
+            val sheetToken = if (url.isWikiUrl) {
+                helper.fetchSheetTokenFromWikiNode(wikiToken)
+                    ?: throw IllegalArgumentException("$url is not valid. It's not a sheet url")
+            } else {
+                spreadsheetToken
+            }
             val id = sheetId
             println("Fetching sheet($sheetToken/$id) range...")
             val range = helper.fetchSheetContentRange(spreadsheetToken = sheetToken, sheetId = id)
                 .getOrThrow()
-            println("Fetching sheet($sheetToken/$id) content...")
+            println("Fetching sheet($sheetToken/$id) range($range) content...")
             val content = helper.fetchSheetContent(sheetToken, range).getOrThrow()
             val destDir = getDownloadDir(project, this)
             destDir.mkdirs()
@@ -29,3 +34,6 @@ abstract class LarkSheetDownloadTask : DefaultTask() {
         }
     }
 }
+
+private val String.isWikiUrl: Boolean
+    get() = URI.create(this).path.contains("/wiki/")

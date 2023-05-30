@@ -30,6 +30,10 @@
 #### lark-sheet
 > 暂不支持多维表格, 并且只支持已经设置过筛选的表格
 
+表格可能是单独的，也可能是知识库下的，链接长下面这样：
+- https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da
+- https://vy7enn9y1k.feishu.cn/wiki/wikcnHkhbcItYtlon6MkF7TJShd?sheet=7qllxA
+
 ```kotlin
 lark {
     client {
@@ -40,8 +44,8 @@ lark {
         // 使用飞书还是 Lark 站点，可选，默认为 true
         feishu = true
     }
-    // 表格访问的 Url
-    sheetUrl = "https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da"
+    // 表格访问的 Url，支持表格的也支持知识库下的表格。注意，url请包含子表（?sheet=???）
+    url = "https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da"
   
     // 脚本所在目录，相对于当前这个 module 的路径
     scriptDirectory = "../scripts"
@@ -59,3 +63,4 @@ lark {
 - 权限报错：
   - 自建应用应该申请相应的权限，至少得有 「查看、评论、编辑和管理电子表格」这个权限
   - 表格不是私有文档，需要开启「链接分享」，「组织内...可阅读」就够了
+- 表格内容获取不全，请检查下格式是否一致，部分没有格式化的化可能会导致这个问题
