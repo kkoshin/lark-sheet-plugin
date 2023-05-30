@@ -31,7 +31,7 @@ class LarkSheetHelper(appId: String, appSecret: String, chinaOnly: Boolean) {
             if (it.code == 0) {
                 Result.success(it.data.sheetFilterInfo.range)
             } else {
-                Result.failure(LarkAPIError(it.msg, it.error))
+                Result.failure(LarkAPIError(it, it.error))
             }
         }
     }
@@ -67,13 +67,14 @@ class LarkSheetHelper(appId: String, appSecret: String, chinaOnly: Boolean) {
             if (it.code == 0) {
                 Result.success(it.data.sheets.asList())
             } else {
-                Result.failure(LarkAPIError(it.msg, it.error))
+                Result.failure(LarkAPIError(it, it.error))
             }
         }
     }
 }
 
-class LarkAPIError(msg: String, val error: Error) : RuntimeException(msg)
+class LarkAPIError(resp: BaseResponse<*>, val error: Error) :
+    RuntimeException("errorCode: ${resp.code}\nerrorMsg: ${resp.msg}")
 
 class ValueRange(
     val majorDimension: String,
