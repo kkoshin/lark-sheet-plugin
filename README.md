@@ -9,12 +9,12 @@
             google()
             mavenCentral()
             gradlePluginPortal()
-            maven { url = "https://jitpack.io" }
+            maven("https://jitpack.io")
         }
         resolutionStrategy {
             eachPlugin {
                 if (requested.id.id == "lark-sheet") {
-                    useModule("com.github.kkoshin:lark-sheet-plugin:$version")
+                    useModule("com.github.kkoshin:lark-sheet-plugin:$version") // 记得替换下版本号
                 }
             }
         }
