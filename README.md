@@ -4,10 +4,18 @@
 - register plugin
     ```kotlin
     // settings.gradle.kts
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "lark-sheet") {
-                useModule("com.github.kkoshin:lark-sheet-plugin:$version")
+    pluginManagement {
+        repositories {
+            google()
+            mavenCentral()
+            gradlePluginPortal()
+            maven { url = "https://jitpack.io" }
+        }
+        resolutionStrategy {
+            eachPlugin {
+                if (requested.id.id == "lark-sheet") {
+                    useModule("com.github.kkoshin:lark-sheet-plugin:$version")
+                }
             }
         }
     }
@@ -15,7 +23,7 @@
 - use plugin in module
   ```kotlin
   plugins {
-      id("lark-sheet") // for example
+      id("lark-sheet")
   }
   ```
 
