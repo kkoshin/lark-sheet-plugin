@@ -1,4 +1,5 @@
 ### Quick Start
+[![](https://jitpack.io/v/kkoshin/lark-sheet-plugin.svg)](https://jitpack.io/#kkoshin/lark-sheet-plugin)
 
 - register plugin
     ```kotlin
