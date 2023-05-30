@@ -14,6 +14,10 @@ class LarkSheetPlugin : Plugin<Project> {
                 group = TASK_GROUP
                 description = "download lark sheet to local as csv file"
             }
+            target.tasks.maybeCreate(TASK_LARK_SHEET_SYNC_STRING, SyncStringTask::class.java).apply {
+                group = TASK_GROUP
+                description = "sync sheet string to local use python scripts"
+            }
         }
     }
 
@@ -21,6 +25,7 @@ class LarkSheetPlugin : Plugin<Project> {
         const val EXTENSION_NAME = "lark"
 
         const val TASK_GROUP = "lark"
-        const val TASK_LARK_SHEET_DOWNLOAD = "larkSheetDownload"
+        const val TASK_LARK_SHEET_DOWNLOAD = "downloadLarkSheet"
+        const val TASK_LARK_SHEET_SYNC_STRING = "syncLarkSheetString"
     }
 }

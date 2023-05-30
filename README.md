@@ -33,8 +33,15 @@ lark {
     }
     // 表格访问的 Url
     sheetUrl = "https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da"
-    // export csv file to custom folder, default path like $buildDir/lark-sheet/LS4os3xmMhVwmwt1876cJb4Xn5f/9d44da/output.csv
-//    exportDirectory = "./custom"
+  
+    // 脚本所在目录，相对于当前这个 module 的路径
+    scriptDirectory = "../scripts"
+    
+    // 读取某一类的，目前暂只能支持一种
+    strings {
+        language = "English"
+        path = "./src/main/res/values/strings.xml"
+    }
 }
 ```
 
