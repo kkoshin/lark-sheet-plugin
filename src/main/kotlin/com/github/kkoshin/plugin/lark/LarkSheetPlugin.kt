@@ -17,6 +17,7 @@ class LarkSheetPlugin : Plugin<Project> {
             target.tasks.maybeCreate(TASK_LARK_SHEET_SYNC_STRING, SyncStringTask::class.java).apply {
                 group = TASK_GROUP
                 description = "sync sheet string to local use python scripts"
+                dependsOn(TASK_LARK_SHEET_DOWNLOAD)
             }
         }
     }
