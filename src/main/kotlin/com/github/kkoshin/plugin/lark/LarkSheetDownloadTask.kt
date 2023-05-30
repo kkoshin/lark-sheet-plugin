@@ -21,13 +21,16 @@ abstract class LarkSheetDownloadTask : DefaultTask() {
                 helper.fetchSheetContentRange(spreadsheetToken = spreadsheetToken, sheetId = sheetId).getOrThrow()
             println("Fetching sheet($spreadsheetToken/$sheetId) content...")
             val content = helper.fetchSheetContent(spreadsheetToken, range).getOrThrow()
+            val sheetTitle =
+                helper.fetchSheetList(spreadsheetToken).getOrNull()?.firstOrNull { it.sheetId == sheetId }?.title
+                    ?: "output"
             val destDir = if (exportDirectory.isNotEmpty()) {
                 File(exportDirectory)
             } else {
                 File(project.buildDir, "lark-sheet/$spreadsheetToken/$sheetId")
             }
             destDir.mkdirs()
-            csvWriter().writeAll(content, File(destDir, "output.csv"))
+            csvWriter().writeAll(content, File(destDir, "$sheetTitle.csv"))
         }
     }
 }
