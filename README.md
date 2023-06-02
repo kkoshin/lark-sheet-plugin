@@ -26,6 +26,10 @@
       id("lark-sheet")
   }
   ```
+  
+ - run task
+    - `downloadLarkSheet`: download sheet as CSV file only. You can find the file in `/build/lark-sheet/xxx/yyy/output.csv`
+    - `syncLarkSheetString`: depends on `downloadLarkSheet` task and syncing string after successfully downloading .
 
 #### lark-sheet
 > 暂不支持多维表格, 并且只支持已经设置过筛选的表格
