@@ -55,7 +55,7 @@ lark {
     scriptDirectory = "../scripts"
     
     // 读取某一类的，目前暂只能支持一种
-    strings {
+    string {
         language = "English"
         path = "./src/main/res/values/strings.xml"
     }
