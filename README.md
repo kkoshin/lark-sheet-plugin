@@ -32,7 +32,7 @@
     - `syncLarkSheetString`: depends on `downloadLarkSheet` task and syncing string after successfully downloading .
 
 #### lark-sheet
-> 暂不支持多维表格, 并且只支持已经设置过筛选的表格
+> 暂不支持多维表格, 并且只支持已经设置过筛选的表格，有一定的局限性，对于一些被删除的行还是会被拉下来，导致一些数据重复
 
 表格可能是单独的，也可能是知识库下的，链接长下面这样：
 - https://qznxol4xbc.feishu.cn/sheets/LS4os3xmMhVwmwt1876cJb4Xn5f?sheet=9d44da
